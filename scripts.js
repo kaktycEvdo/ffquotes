@@ -122,8 +122,8 @@ document.querySelector("button.about_button").addEventListener("click", () => {
 });
 
 
-document.addEventListener('touchstart', handleTouchStart, false);        
-document.addEventListener('touchmove', handleTouchMove, false);
+document.addEventListener('touchstart', handleTouchStart);
+document.addEventListener('touchmove', handleTouchMove);
 
 var xDown = null;                                                        
 var yDown = null;
@@ -176,7 +176,7 @@ function handleTouchMove(evt) {
     }
     /* reset values */
     xDown = null;
-    yDown = null;                                             
+    yDown = null;
 };
 
 
