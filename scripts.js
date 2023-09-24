@@ -104,12 +104,12 @@ function setActiveLink(about=false){
     }
 }
 
-function openAbout(k=k){
+function openAbout(){
     let left = k ? 0 : 100;
-    about_button.innerHTML = k ? (ruen ? le_text.buttonEN2 : le_text.buttonRU2) : (ruen ? le_text.buttonEN1 : le_text.buttonRU1)
-    k ? setActiveLink(true) : setActiveLink()
-    k = k ? false : true;
+    about_button.innerHTML = k ? (ruen ? le_text.buttonEN2 : le_text.buttonRU2) : (ruen ? le_text.buttonEN1 : le_text.buttonRU1);
+    k ? setActiveLink(true) : setActiveLink();
     about_block.style = "left: "+left+"vw";
+    k = k ? false : true;
 }
 
 
@@ -121,11 +121,8 @@ anchor5.addEventListener("click", () => {offset = 4; setActiveLink()});
 anchor6.addEventListener("click", () => {offset = 5; setActiveLink()});
 
 document.querySelector("button.about_button").addEventListener("click", () => {
-    let left = k ? 0 : 100;
-    about_button.innerHTML = k ? (ruen ? le_text.buttonEN2 : le_text.buttonRU2) : (ruen ? le_text.buttonEN1 : le_text.buttonRU1)
-    k ? setActiveLink(true) : setActiveLink()
+    openAbout(k ? true : false);
     k = k ? false : true;
-    about_block.style = "left: "+left+"vw";
 });
 
 
@@ -136,21 +133,32 @@ let touchendX = 0;
     
 function checkDirection() {
     if (Math.abs(touchendY-touchstartY) > Math.abs(touchendX-touchstartX)){
-        if (touchendY < touchstartY && offset < 5 && !k) offset++; setActiveLink();
-        if (touchendY > touchstartY && offset > 0 && !k) offset--; setActiveLink();
+        console.log((touchendY < touchstartY && offset < 5 && k), k)
+        if(k){
+            if (touchendY < touchstartY && offset < 5 && k) offset++; setActiveLink();
+            if (touchendY > touchstartY && offset > 0 && k) offset--; setActiveLink();
+        }
     }
     else{
-        if (touchendX < touchstartX) openAbout(true);
-        if (touchendX > touchstartX) openAbout(false);
+        if (touchendX < touchstartX) {   // left
+            
+            k = true;
+            openAbout(k);
+        }
+        if (touchendX > touchstartX) {  // right
+            
+            k = false;
+            openAbout(k);
+        }
     }
 }
 
-document.addEventListener('touchstart', e => {
+window.addEventListener('touchstart', e => {
     touchstartY = e.changedTouches[0].screenY
     touchstartX = e.changedTouches[0].screenX
 })
 
-document.addEventListener('touchend', e => {
+window.addEventListener('touchend', e => {
     touchendY = e.changedTouches[0].screenY
     touchendX = e.changedTouches[0].screenX
     checkDirection()
