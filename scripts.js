@@ -133,7 +133,6 @@ let touchendX = 0;
     
 function checkDirection() {
     if (Math.abs(touchendY-touchstartY) > Math.abs(touchendX-touchstartX)){
-        console.log((touchendY < touchstartY && offset < 5 && k), k)
         if(k){
             if (touchendY < touchstartY && offset < 5 && k) offset++; setActiveLink();
             if (touchendY > touchstartY && offset > 0 && k) offset--; setActiveLink();
@@ -141,14 +140,12 @@ function checkDirection() {
     }
     else{
         if (touchendX < touchstartX) {   // left
-            
             k = true;
-            openAbout(k);
+            openAbout();
         }
         if (touchendX > touchstartX) {  // right
-            
             k = false;
-            openAbout(k);
+            openAbout();
         }
     }
 }
