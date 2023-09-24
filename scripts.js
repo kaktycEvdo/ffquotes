@@ -89,7 +89,6 @@ window.onload = setText;
 translate_button.addEventListener("click", () => {
     if (localStorage.getItem("ruen") === "true") localStorage.setItem("ruen", "false");
     else localStorage.setItem("ruen", "true");
-    
     ruen = ruen ? false : true;
     setText();
 })
@@ -103,6 +102,14 @@ function setActiveLink(about=false){
     else{
         anchors.forEach((element) => {element.classList.remove("link_active")})
     }
+}
+
+function openAbout(k=k){
+    let left = k ? 0 : 100;
+    about_button.innerHTML = k ? (ruen ? le_text.buttonEN2 : le_text.buttonRU2) : (ruen ? le_text.buttonEN1 : le_text.buttonRU1)
+    k ? setActiveLink(true) : setActiveLink()
+    k = k ? false : true;
+    about_block.style = "left: "+left+"vw";
 }
 
 
@@ -122,66 +129,32 @@ document.querySelector("button.about_button").addEventListener("click", () => {
 });
 
 
-document.addEventListener('touchstart', handleTouchStart);
-document.addEventListener('touchmove', handleTouchMove);
-
-var xDown = null;                                                        
-var yDown = null;
-
-function getTouches(evt) {
-    return evt.touches ||      // browser API
-    evt.originalEvent.touches; // jQuery
+let touchstartY = 0;
+let touchendY = 0;
+let touchstartX = 0;
+let touchendX = 0;
+    
+function checkDirection() {
+    if (Math.abs(touchendY-touchstartY) > Math.abs(touchendX-touchstartX)){
+        if (touchendY < touchstartY && offset < 5 && !k) offset++; setActiveLink();
+        if (touchendY > touchstartY && offset > 0 && !k) offset--; setActiveLink();
+    }
+    else{
+        if (touchendX < touchstartX) openAbout(true);
+        if (touchendX > touchstartX) openAbout(false);
+    }
 }
-                                                                         
-function handleTouchStart(evt) {
-    const firstTouch = getTouches(evt)[0];                                      
-    xDown = firstTouch.clientX;                                      
-    yDown = firstTouch.clientY;                                      
-};                                                
-                                                                         
-function handleTouchMove(evt) {
-    if ( ! xDown || ! yDown ) {
-        return;
-    }
 
-    var xUp = evt.touches[0].clientX;                                    
-    var yUp = evt.touches[0].clientY;
+document.addEventListener('touchstart', e => {
+    touchstartY = e.changedTouches[0].screenY
+    touchstartX = e.changedTouches[0].screenX
+})
 
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
-                                                                         
-    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
-        if ( xDiff > 0 ) {
-            let left = 0;
-            about_button.innerHTML = ruen ? le_text.buttonEN2 : le_text.buttonRU2
-            setActiveLink(true)
-            k = false;
-            about_block.style = "left: "+left+"vw";
-        } else {
-            let left = 100;
-            about_button.innerHTML = ruen ? le_text.buttonEN1 : le_text.buttonRU1
-            setActiveLink()
-            k = true;
-            about_block.style = "left: "+left+"vw";
-            
-        }                       
-    } else {
-        if ( yDiff > 0 && offset < 5 && k) {
-            offset++;
-            anchors.forEach((element) => {element.classList.remove("link_active")});
-            anchors[offset].classList.add("link_active");
-            blocks[offset].scrollIntoView({behavior: 'smooth'});
-        } else if (yDiff < 0 && offset > 0 && k) { 
-            offset--;
-            anchors.forEach((element) => {element.classList.remove("link_active")});
-            anchors[offset].classList.add("link_active");
-            blocks[offset].scrollIntoView({behavior: 'smooth'});
-        }                                                                 
-    }
-    /* reset values */
-    xDown = null;
-    yDown = null;
-};
+document.addEventListener('touchend', e => {
+    touchendY = e.changedTouches[0].screenY
+    touchendX = e.changedTouches[0].screenX
+    checkDirection()
+})
 
 
 window.onwheel = function(event) {
