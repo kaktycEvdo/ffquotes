@@ -168,10 +168,14 @@ function handleTouchMove(evt) {
     } else {
         if ( yDiff > 0 && offset < 5 && k) {
             offset++;
-            setActiveLink();
+            anchors.forEach((element) => {element.classList.remove("link_active")});
+            anchors[offset].classList.add("link_active");
+            blocks[offset].scrollIntoView({behavior: 'smooth'});
         } else if (yDiff < 0 && offset > 0 && k) { 
             offset--;
-            setActiveLink();
+            anchors.forEach((element) => {element.classList.remove("link_active")});
+            anchors[offset].classList.add("link_active");
+            blocks[offset].scrollIntoView({behavior: 'smooth'});
         }                                                                 
     }
     /* reset values */
