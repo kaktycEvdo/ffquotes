@@ -41,9 +41,8 @@ body{
 }
 #first_block > div:nth-child(2), #second_block > div:nth-child(2), #third_block > div:nth-child(2), #fourth_block > div:nth-child(2), #fifth_block > div:nth-child(2), #sixth_block > div:nth-child(2){
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: center;
     position: absolute;
-    right: 2vw;
     filter: brightness(0.1);
     height: 100vh;
     width: 100vw;
@@ -140,14 +139,6 @@ header > a.link_active{
     font-size: medium;
     transition: background .2s ease-in;
     transition: color .2s ease-in;
-}
-.about_button{
-    left: 40px;
-    top: 40px;
-}
-.translate_button{
-    right: 40px;
-    top: 40px;
 }
 @media screen and (max-width: 1023px) {
     header{
