@@ -109,7 +109,6 @@ function openAbout(){
     about_button.innerHTML = k ? (ruen ? le_text.buttonEN2 : le_text.buttonRU2) : (ruen ? le_text.buttonEN1 : le_text.buttonRU1);
     k ? setActiveLink(true) : setActiveLink();
     about_block.style = "left: "+left+"vw";
-    k = k ? false : true;
 }
 
 
